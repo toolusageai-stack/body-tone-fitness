@@ -60,7 +60,7 @@ export const BUSINESS = {
 
   founders: ["Siddhanth", "Laveen"],
 
-  url: "https://bodytonefitness.in", // placeholder canonical
+  url: "https://bodytonefitness-test.netlify.app/", // placeholder canonical
 } as const;
 
 /** Build the WhatsApp click-through URL with the prefilled message encoded. */
