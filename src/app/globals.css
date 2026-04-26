@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette — single accent (champagne gold), warm neutrals, off-black */
+  --color-ink: #09090b;          /* zinc-950, never pure black per CLAUDE.md */
+  --color-ink-soft: #0f0f12;
+  --color-ink-elevated: #14141a;
+  --color-bone: #f7f6f3;         /* warm light surface */
+  --color-bone-soft: #ecebe6;
+  --color-mute: #a1a1aa;         /* zinc-400 */
+  --color-mute-soft: #71717a;    /* zinc-500 */
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-strong: rgba(255, 255, 255, 0.14);
+
+  --color-gold: #c9a961;         /* primary accent — sat ~50% per CLAUDE.md §4 */
+  --color-gold-soft: #d8bf7e;
+  --color-gold-deep: #a8884b;
+  --color-gold-glow: rgba(201, 169, 97, 0.18);
+
+  /* Typography — Outfit display + Geist body, both on the CLAUDE.md §3 allowed list */
+  --font-display: var(--font-outfit), system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Easing — custom cubic-bezier per CLAUDE.md §7 (no defaults) */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    background-color: var(--color-ink);
+    color: #fafafa;
+    font-family: var(--font-body);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  body {
+    min-height: 100dvh;          /* CLAUDE.md §2: never h-screen */
+    overflow-x: clip;            /* mobile horizontal-scroll guard */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  /* Visible keyboard focus ring per CLAUDE.md §6 */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Reduce motion preference — disables Framer animations via useReducedMotion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Reusable container width per CLAUDE.md §2 (max-w-7xl, never edge-to-edge) */
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  /* Subtle film grain over fixed pseudo-element only — CLAUDE.md §7 */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Eyebrow tag — pill above section headings */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-gold);
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  /* Section heading display style */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    text-wrap: balance;
+  }
+}
